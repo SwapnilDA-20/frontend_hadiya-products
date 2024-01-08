@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiGatewayURL: 'https://18.212.253.179:3000'
+  apiGatewayURL: 'https://54.86.214.197:3000'
 };
