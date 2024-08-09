@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontendi
+  name: frontend
   namespace: product
   labels:
     app: frontend
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: swapnil2026/hfrontend:fe-latest
+        image: swapnil2026/hfrontend:latest
         ports:
         - containerPort: 80
 ---
