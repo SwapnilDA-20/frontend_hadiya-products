@@ -1,24 +1,31 @@
-# Use the official Node.js 16 image as the base image
-FROM node:16
+# Stage 1: Build the Angular application
+FROM node:16 AS build
 
-# Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
-
-# Install Node.js dependencies
 RUN npm install
 RUN npm install -g @angular/cli@12.2.16
 
-# Copy the application files to the working directory
 COPY . .
-
-#Build the Angular project
 RUN ng build
 
-# Expose the port your app will run on
-EXPOSE 4200
+# Inspect the build output
+RUN ls -la /usr/src/app/dist/hadiya_products_admin
 
-# Command to running your apps using
-CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "4200"]
+# Stage 2: Serve with NGINX
+FROM nginx:alpine
+
+# Inspect the existing conf.d directory
+RUN ls -la /etc/nginx/conf.d
+
+COPY --from=build /usr/src/app/dist/hadiya_products_admin /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Inspect the conf.d directory after copying the config
+RUN ls -la /etc/nginx/conf.d
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+
