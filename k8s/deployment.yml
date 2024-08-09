@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: swapnil2026/hadiya:fe-latest
+        image: swapnil2026/hfrontend:fe-latest
         ports:
         - containerPort: 80
 ---
